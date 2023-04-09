@@ -9,9 +9,13 @@ api_secret=                                                                     
 client = Client(api_key, api_secret)
 exchange_info = client.futures_exchange_info()
 
-coins = [symbol['symbol'] for symbol in exchange_info['symbols']]
+coins = [symbol['symbol'] for symbol in exchange_info['symbols'] if symbol['status'] == 'TRADING']
+for coin in coins:
+    if(coin[-4:]!="USDT"):
+        coins.remove(coin)
 print(len(coins))
 #alo alo
+#coins = ["SXPUSDT"]
 while(True):
     mx = 0
     coinmx = ""
@@ -35,7 +39,7 @@ while(True):
                                       winsound.Beep(2000,1000)
                                 if(val > 1.5):
                                       winsound.Beep(2000,500)
-                            time.sleep(0.1)      
+                            time.sleep(1)
                             break 
                        except Exception as e:
                             time.sleep(30)
