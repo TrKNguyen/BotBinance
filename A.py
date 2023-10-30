@@ -24,21 +24,21 @@ while(True):
                 while True:
                        try:       
                             result = client.futures_historical_klines(symbol = coin,interval ='5m',start_str=utc_now,limit = 1)
-                            val =  ( (float(result[0][2])-float(result[0][3])) /float(result[0][1] )) *100
+                            val =  ((float(result[0][2]) - float(result[0][3])) / float(result[0][1])) * 100
                             if mx < val and result[0][4] > result[0][1]:
                                 mx = val 
-                                coinmx= coin
-                                print(coinmx , mx )
+                                coinmx = coin
+                                print(coinmx, mx)
                                 if(mx > 2 ):
-                                      winsound.Beep(2000,1000)
+                                      winsound.Beep(2000, 1000)
                                 if(mx > 1.5):   
-                                      winsound.Beep(2000,500)
+                                      winsound.Beep(2000, 500)
                             if val > 1.5 and coinmx != coin:
                                 print(coin , val) 
                                 if(val > 2 ):
-                                      winsound.Beep(2000,1000)
+                                      winsound.Beep(2000, 1000)
                                 if(val > 1.5):
-                                      winsound.Beep(2000,500)
+                                      winsound.Beep(2000, 500)
                             time.sleep(1)
                             break 
                        except Exception as e:
