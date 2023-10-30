@@ -43,19 +43,18 @@ while (True):
 
         while True:
             try:
-
                 resultspot = client.get_historical_klines(symbol=coin, interval='5m', start_str=utc_now, limit=1,
                 klines_type  = HistoricalKlinesType.SPOT)
                 resultfutures = client.futures_historical_klines(symbol=coin, interval='5m', start_str=utc_now, limit=1)
                 #print(len(resultfutures),len(resultspot))
-                val = (float(resultspot[-1][4])-float(resultfutures[-1][4]))/float(resultspot[-1][4]) *100
+                val = (float(resultspot[-1][4]) - float(resultfutures[-1][4]))/float(resultspot[-1][4]) * 100
                 if(val>valmx):
                     valmx = val
                     coinmx = str(coin)
                 if(val>1):
                     print(coin,val)
                 if (val > 2):
-                    winsound.Beep(2000,2000)
+                    winsound.Beep(2000, 2000)
                 break
             except Exception as e:
                 #print(e)

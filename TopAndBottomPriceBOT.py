@@ -29,18 +29,18 @@ def get(coin, interval,start_str, limit  ):
             continue 
         
 
-def chk(result,mid):
+def chk(result, mid):
     
     for resultperday in result:
         pre = float(resultperday[2])
         pricenow = float(result[-1][4])
-        endtime =datetime.fromtimestamp( float (result[-1][6]) /1000.0)
-        sttime = datetime.fromtimestamp( float (resultperday[6]) /1000.0)
+        endtime =datetime.fromtimestamp(float(result[-1][6]) / 1000.0)
+        sttime = datetime.fromtimestamp(float(resultperday[6]) /1000.0)
         duration_days = (endtime - sttime).days
         if (duration_days > mid ): 
             continue
         if pre > pricenow:
-            if ((pre-pricenow)/ pricenow ) > 0.05:
+            if ((pre - pricenow) / pricenow ) > 0.05:
                 return False
         else :
             continue
