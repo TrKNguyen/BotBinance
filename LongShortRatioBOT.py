@@ -14,22 +14,32 @@ exchange_info = client.futures_exchange_info()
 
 coins = [symbol['symbol'] for symbol in exchange_info['symbols'] if symbol['status'] == 'TRADING']
 # Define the base URL
-base_url = "https://www.binance.com/futures/data/topLongShortAccountRatio"
+base_url_Account = "https://www.binance.com/futures/data/topLongShortAccountRatio"
+base_url_Position = "https://www.binance.com/futures/data/topLongShortPositionRatio"
 
-
-
+mx = -1;
+coinmx = "";
+def get(coin):
+    url_Acount = base_url_Account + f"?symbol={coin}&period=15m&limit=1"
+    url_Position = base_url_Position + f"?symbol={coin}&period=15m&limit=1"
+    response_Account = requests.get(url_Acount); 
+    response_Position = requests.get(url_Position);
+    return (response_Account, response_Position);
 for coin in coins:
-    url = base_url + f"?symbol={coin}&period=15m&limit=1"
-    # Send a GET request to the URL
-    response = requests.get(url)
+    response_Account, response_Position = get(coin); 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        data = response.json()  # Parse the response as JSON
+    if response_Account.status_code == 200 and response_Position.status_code == 200:
+        data1 = response_Account.json()  # Parse the response as JSON
+        data2 = response_Position.json()  # Parse the response as JSON
         # You can now work with the data for each set of parameters
-        longrate = float(data[0]["longAccount"]) * 100.0; 
-        shortrate = float(data[0]["shortAccount"]) * 100;
-        if (shortrate > 60):
-            print(data[0]["symbol"], longrate, shortrate)
+        longratebyAccount = float(data1[0]["longAccount"]) * 100.0; 
+        longratebyPosition = float(data2[0]["longAccount"]) * 100.0;
+        if (longratebyPosition * 2 - longratebyAccount > 75):
+            print(coin, longratebyAccount, longratebyPosition)
+        if (longratebyPosition * 2 - longratebyAccount > mx):
+            mx = longratebyPosition * 2 - longratebyAccount
+            coinmx = coin
+print(mx, coinmx);
 
 
 
